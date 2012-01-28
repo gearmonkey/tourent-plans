@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<title>Google Maps JavaScript API v3 Example: Directions Simple</title>
+<link href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+  var directionDisplay;
+  var directionsService = new google.maps.DirectionsService();
+  var map;
+
+  function initialize() {
+    directionsDisplay = new google.maps.DirectionsRenderer();
+    var chicago = new google.maps.LatLng(41.850033, -87.6500523);
+    var myOptions = {
+      zoom:7,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      center: chicago
+    }
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    directionsDisplay.setMap(map);
+  }
+  
+  function calcRoute() {
+    var start = document.getElementById("start").value;
+    var end = document.getElementById("end").value;
+    var request = {
+        origin:start, 
+        destination:end,
+        travelMode: google.maps.DirectionsTravelMode.DRIVING
+    };
+    directionsService.route(request, function(response, status) {
+      if (status == google.maps.DirectionsStatus.OK) {
+        directionsDisplay.setDirections(response);
+      }
+    });
+  }
+</script>
+</head>
+<body onload="initialize()">
+<div>
+<b>Artist: </b>
+<select id="artist" onchange="calcRoute();">
+  <option value="fe66302b0aee49cfbd7d248403036def">Lady Gaga</option>
+  <option value="e78fc40de81a4e01babf1d23deaf2ca0">50 cent</option>
+  <option value="74d4539c16624efc9471c5a93292c6e7">Justin Bieber</option>
+  <option value="dc82b93e90b74b2a99e9f2d4391d04ea">Polysics</option>
+  <option value="20e65961791b43ebb1e313fc0937e84a">MEN</option>
+</select>
+<b>Country: </b>
+<select id="country" onchange="calcRoute();">
+  <option value="ALL">All</option>
+  <option value="US">United States</option>
+  <option value="GB">United Kingdom</option>
+  <option value="FR">France</option>
+</select>
+<b>Continent: </b>
+<select id="continent" onchange="calcRoute();">
+  <option value="ALL">All</option>
+  <option value="NA">North America</option>
+  <option value="EU">Europe</option>
+  <option value="SA">South America</option>
+  <option value="AU">Australia</option>
+</select>
+</div>
+<div id="map_canvas" style="top:30px;"></div>
+</body>
+</html>
