@@ -13,7 +13,10 @@
 <link rel="stylesheet" type="text/css" href="css/core.css" />
 </head>
 <body onload="initialize()">
-<div>
+<div class="header">
+	<img src="images/logo_white.gif"/>
+</div>
+<div class="options">
 <b>Artist: </b>
 <select id="artist" onchange="calcRoute();">
   <option value="fail">Pick an artist</option>
@@ -47,14 +50,14 @@
   <option value=15>15</option>
 </select>
 <b>Return to start? </b>
-<input type="checkbox" id="return"  onchange="calcRoute();"/>Return to start?<br />
+<input type="checkbox" id="return"  onchange="calcRoute();"/><br />
 </div>
 <div class="working" style="background-image:url('images/Ajax-loader.gif'); height:32px; width:32px;display:none;"></div>
 <div class="output"></div>
 <!-- <div id="map_canvas" style="top:30px;"></div> -->
 <div id="map_wrapper">
-	<div id="map_canvas" style="float:right;width:70%; top:30px;"></div>
-	<div id="directionsPanel" style="float:left;width:30%;top:60px;"></div>
+	<div id="map_canvas" style="float:right;width:70%; top:0px;"></div>
+	<div id="directionsPanel" style="float:left;width:30%;top:30px;"></div>
 </div>
 </body>
 </html>
