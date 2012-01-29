@@ -1,6 +1,7 @@
 var directionDisplay;
 var directionsService = new google.maps.DirectionsService();
 var map;
+var alpha='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 function proper_pop(some_array, i){
     if (i===0){
@@ -104,10 +105,16 @@ function initialize() {
     }
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
     directionsDisplay.setMap(map);
-    directionsDisplay.setPanel(document.getElementById("directionsPanel"));
+    // directionsDisplay.setPanel(document.getElementById("directionsPanel"));
 }
 
+// $(".adp-directions").click(function(){
+//     $(".adp-directions").fadeOut('fast');
+// })
+
+
 function calcRoute() {
+    $("div.working").fadeIn('fast');
 	var artist = document.getElementById("artist").value
 	var uri = "http://api.semetric.com/artist/"
 				+artist+"/downloads/bittorrent/location/city?token="
@@ -142,8 +149,10 @@ function calcRoute() {
 	    }else{
 	        var last = cities.pop();	
 	    }
-        var start = new google.maps.LatLng(first.latitude, first.longitude)
-        var end = new google.maps.LatLng(last.latitude, last.longitude)
+        // var start = new google.maps.LatLng(first.latitude, first.longitude)
+        // var end = new google.maps.LatLng(last.latitude, last.longitude)
+        start = first.name+','+first.region.country.name
+        end = last.name+','+last.region.country.name
         var request = {
             origin:start, 
             destination:end,
@@ -152,15 +161,27 @@ function calcRoute() {
             optimizeWaypoints: true
         };
 	    for (i=0;i<cities.length;i++) {
-		    var way_loc = new google.maps.LatLng(cities[i].latitude, cities[i].longitude)
+            // var way_loc = new google.maps.LatLng(cities[i].latitude, cities[i].longitude)
+            way_loc = cities[i].name+','+cities[i].region.country.name
 	     	request.waypoints.push({location:way_loc});
 	    }
         // $(".output").append(JSON.stringify(request));
         directionsService.route(request, function(response, status) {
-            // $(".output").
             if (status == google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(response);
+                // $(".output").append('response - '+JSON.stringify(response.routes[0].legs[0])+'<br/>');
+                // $(".output").append('legs - '+JSON.stringify(response.routes[0].legs.length)+'<br/>');
+                $('#directionsPanel').empty();
+                for (i=0;i<response.routes[0].legs.length; i++){
+                    leg = response.routes[0].legs[i];
+                    $('#directionsPanel').append("<div class='a_leg'> <div class='place'>"+alpha[i]+
+                        '. '+leg.start_address+"</div><br/><div class='dist'>"+leg.distance.text + 
+                        " -</div> <div class=duration>"+leg.duration.text+"</div><br/></div>");
+                }
+            }else {
+                $(".output").val('directions failed, response: '+JSON.stringify(request)+'<br/>');
             }
+            $("div.working").fadeOut('fast');
         });
 	});
 }
