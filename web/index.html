@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<title>Google Maps JavaScript API v3 Example: Directions Simple</title>
+<link href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<!-- stash api keys and such here -->
+<script type="text/javascript" src="scripts/credentials.js"></script>
+<script type="text/javascript" src="scripts/main.js""></script>
+</head>
+<body onload="initialize()">
+<div>
+<b>Artist: </b>
+<select id="artist" onchange="calcRoute();">
+  <option value="fail">Pick an artist</option>
+  <option value="fe66302b0aee49cfbd7d248403036def">Lady Gaga</option>
+  <option value="e78fc40de81a4e01babf1d23deaf2ca0">50 cent</option>
+  <option value="74d4539c16624efc9471c5a93292c6e7">Justin Bieber</option>
+  <option value="dc82b93e90b74b2a99e9f2d4391d04ea">Polysics</option>
+  <option value="20e65961791b43ebb1e313fc0937e84a">MEN</option>
+</select>
+<b>Country: </b>
+<select id="country" onchange="calcRoute();">
+  <option value="ALL">All</option>
+  <option value="US">United States</option>
+  <option value="GB">United Kingdom</option>
+  <option value="FR">France</option>
+</select>
+<b>Continent: </b>
+<select id="continent" onchange="calcRoute();">
+  <option value="ALL">All</option>
+  <option value="NA">North America</option>
+  <option value="EU" selected="selected">Europe</option>
+  <option value="SA">South America</option>
+  <option value="AS">Asia</option>
+  <option value="AU">Oceania</option>
+  <option value="AF">Africa</option>
+</select>
+<b>Number of Cities: </b>
+<select id="num_cities" onchange="calcRoute();">
+  <option value=5>5</option>
+  <option value=10>10</option>
+  <option value=15>15</option>
+</select>
+<b>Return to start? </b>
+<input type="checkbox" id="return" checked="checked" onchange="calcRoute();"/>Return to start?<br />
+</div>
+<div class="output"></div>
+<div id="map_canvas" style="top:30px;"></div>
+</body>
+</html>
