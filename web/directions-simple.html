@@ -5,37 +5,74 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 <title>Google Maps JavaScript API v3 Example: Directions Simple</title>
 <link href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<!-- stash api keys and such here -->
+<script type="text/javascript" src="credentials.js"></script>
 <script type="text/javascript">
   var directionDisplay;
   var directionsService = new google.maps.DirectionsService();
   var map;
+  
 
   function initialize() {
     directionsDisplay = new google.maps.DirectionsRenderer();
-    var chicago = new google.maps.LatLng(41.850033, -87.6500523);
+    var cannes = new google.maps.LatLng(43.55, 7.016667);
     var myOptions = {
       zoom:7,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
-      center: chicago
+      center: cannes
     }
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
     directionsDisplay.setMap(map);
   }
-  
+ 
   function calcRoute() {
-    var start = document.getElementById("start").value;
-    var end = document.getElementById("end").value;
-    var request = {
-        origin:start, 
-        destination:end,
-        travelMode: google.maps.DirectionsTravelMode.DRIVING
-    };
-    directionsService.route(request, function(response, status) {
-      if (status == google.maps.DirectionsStatus.OK) {
-        directionsDisplay.setDirections(response);
-      }
-    });
+	var artist = document.getElementById("artist").value
+	var uri = "http://api.semetric.com/artist/"
+				+artist+"/downloads/bittorrent/location/city?token="
+				+semetric_api_key;
+	var cities = [];
+	var country = document.getElementById("country").value
+	var continent = document.getElementById("country").value
+	
+	$.getJSON(uri, function(data) {
+	  if (!data.success) {
+		data.error.appendTo('body');
+		return;}
+	  var i;
+	  var metros = data.response.data;
+	  for (i=0;i<metros.length;i++){
+		if (country===metros[i].city.region.country.code || 
+			continent===metros[i].city.region.continent.code || 
+			country==='ALL' || continent==='ALL'){
+			// $(".output").append(JSON.stringify(metros[i].city));
+	    	cities.push(metros[i].city);
+		}
+	  }
+	
+	  cities = cities.slice(0,document.getElementById("num_cities").value)
+	  var first = cities.shift();
+	  var last = cities.pop();
+      var start = new google.maps.LatLng(first.latitude, first.longitude)
+      var end = new google.maps.LatLng(last.latitude, last.longitude)
+      var request = {
+         origin:start, 
+         destination:end,
+		 waypoints:[],
+         travelMode: google.maps.DirectionsTravelMode.DRIVING
+       };
+	   for (i=0;i<cities.length;i++) {
+			var way_loc = new google.maps.LatLng(cities[i].latitude, cities[i].longitude)
+	     	request.waypoints.push({location:way_loc});
+	   }
+	   $(".output").append(JSON.stringify(request));
+       directionsService.route(request, function(response, status) {
+         if (status == google.maps.DirectionsStatus.OK) {
+           directionsDisplay.setDirections(response);
+         }
+       });
+	});
   }
 </script>
 </head>
@@ -43,6 +80,7 @@
 <div>
 <b>Artist: </b>
 <select id="artist" onchange="calcRoute();">
+  <option value="fail">Pick an artist</option>
   <option value="fe66302b0aee49cfbd7d248403036def">Lady Gaga</option>
   <option value="e78fc40de81a4e01babf1d23deaf2ca0">50 cent</option>
   <option value="74d4539c16624efc9471c5a93292c6e7">Justin Bieber</option>
@@ -62,9 +100,18 @@
   <option value="NA">North America</option>
   <option value="EU">Europe</option>
   <option value="SA">South America</option>
-  <option value="AU">Australia</option>
+  <option value="AS">Asia</option>
+  <option value="AU">Oceania</option>
+  <option value="AF">Africa</option>
+</select>
+<b>Number of Cities: </b>
+<select id="num_cities" onchange="calcRoute();">
+  <option value=5>5</option>
+  <option value=10>10</option>
+  <option value=15>15</option>
 </select>
 </div>
+<div class="output"></div>
 <div id="map_canvas" style="top:30px;"></div>
 </body>
 </html>
