@@ -34,15 +34,21 @@ function argmin(some_array){
 	min_val = Math.min.apply({},some_array);
 	return find(some_array, min_val);
 }
+
+function argmax(some_array){
+	max_val = Math.max.apply({},some_array);
+	return find(some_array, max_val);
+}
+
 function find_nearest_cities_euc(from, tos){
-    $(".output").append('from '+JSON.stringify(from)+'<br/>');
+    // $(".output").append('from '+JSON.stringify(from)+'<br/>');
 	if (tos.length === 1){
 		result = 0;
 	}else {
 		var dists = [];
 		for (var i=0;i<tos.length;i++){
-			$(".output").append('to '+i+' '+JSON.stringify(tos[i])+'<br/>');
-			dists.push(euc_2d([from.latitude,from.latitude],[tos[i].latitude,tos[i].latitude]));
+            // $(".output").append('to '+i+' '+JSON.stringify(tos[i])+'<br/>');
+			dists.push(euc_2d([from.latitude,from.longitude],[tos[i].latitude,tos[i].longitude]));
 		}
 		result = argmin(dists);
 	}
@@ -50,7 +56,25 @@ function find_nearest_cities_euc(from, tos){
 }
 
 function find_wide_edge(cities){
-	
+    var lats = [];
+    var lons = [];
+    for (var i=0;i<cities.length;i++){
+        lats.push(cities[i].latitude);
+        lons.push(cities[i].longitude);
+    }
+    // $(".output").append('lats - '+JSON.stringify(lats)+'<br/>');
+    // $(".output").append('lons - '+JSON.stringify(lons)+'<br/>');
+    lat_diff = lats[argmax(lats)]-lats[argmin(lats)];
+    lon_diff = lons[argmax(lons)]-lons[argmin(lons)];
+    if (argmax([lat_diff,lon_diff])===0){
+        wide_edge = argmax(lats);
+        // $(".output").append('lats wider!<br/>');
+    }else{
+        wide_edge = argmax(lons);
+        // $(".output").append('lons wider!<br/>');
+    }
+    // $(".output").append('edge is '+wide_edge+'<br/>');
+    return wide_edge;
 }
 
 function cheap_optimize(cities){
@@ -108,9 +132,9 @@ function calcRoute() {
 		    }
 	    }
 	    cities = cities.slice(0,document.getElementById("num_cities").value);
-	    $(".output").append('cities- '+JSON.stringify(cities) + '<br/>');
+        // $(".output").append('cities- '+JSON.stringify(cities) + '<br/>');
 	    cities = cheap_optimize(cities);
-	    $(".output").append('cities- '+JSON.stringify(cities) + '<br/>');
+        // $(".output").append('cities- '+JSON.stringify(cities) + '<br/>');
 	    var first = cities.shift();
 	    if (document.getElementById("return").checked){
 	        var last = first;
@@ -129,7 +153,7 @@ function calcRoute() {
 		    var way_loc = new google.maps.LatLng(cities[i].latitude, cities[i].longitude)
 	     	request.waypoints.push({location:way_loc});
 	    }
-	    $(".output").append(JSON.stringify(request));
+        // $(".output").append(JSON.stringify(request));
         directionsService.route(request, function(response, status) {
             if (status == google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(response);
