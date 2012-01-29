@@ -27,13 +27,13 @@
   <option value="ALL">All</option>
   <option value="US">United States</option>
   <option value="GB">United Kingdom</option>
-  <option value="FR">France</option>
+  <option value="FR" selected="selected">France</option>
 </select>
 <b>Continent: </b>
 <select id="continent" onchange="calcRoute();">
-  <option value="ALL">All</option>
+  <option value="ALL"  selected="selected">All</option>
   <option value="NA">North America</option>
-  <option value="EU" selected="selected">Europe</option>
+  <option value="EU">Europe</option>
   <option value="SA">South America</option>
   <option value="AS">Asia</option>
   <option value="AU">Oceania</option>
@@ -42,13 +42,15 @@
 <b>Number of Cities: </b>
 <select id="num_cities" onchange="calcRoute();">
   <option value=5>5</option>
-  <option value=10>10</option>
+  <option value=10 selected="selected">10</option>
   <option value=15>15</option>
 </select>
 <b>Return to start? </b>
-<input type="checkbox" id="return" checked="checked" onchange="calcRoute();"/>Return to start?<br />
+<input type="checkbox" id="return"  onchange="calcRoute();"/>Return to start?<br />
 </div>
 <div class="output"></div>
-<div id="map_canvas" style="top:30px;"></div>
+<!-- <div id="map_canvas" style="top:30px;"></div> -->
+<div id="map_canvas" style="float:right;width:70%; top:30px;"></div>
+<div id="directionsPanel" style="float:left;width:30%;top:60px;"></div>
 </body>
 </html>

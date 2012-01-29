@@ -104,6 +104,7 @@ function initialize() {
     }
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
     directionsDisplay.setMap(map);
+    directionsDisplay.setPanel(document.getElementById("directionsPanel"));
 }
 
 function calcRoute() {
@@ -116,8 +117,8 @@ function calcRoute() {
 	var continent = document.getElementById("country").value
 	
 	$.getJSON(uri, function(data) {
-	    if (!data.success) {
-		    data.error.appendTo('body');
+	    if (data.success==false) {
+		    $(".output").append('error - '+JSON.stringify(data.error) + '<br/>');
 		    return;
 		}
 	    var i;
@@ -147,7 +148,8 @@ function calcRoute() {
             origin:start, 
             destination:end,
 		    waypoints:[],
-            travelMode: google.maps.DirectionsTravelMode.DRIVING
+            travelMode: google.maps.DirectionsTravelMode.DRIVING,
+            optimizeWaypoints: true
         };
 	    for (i=0;i<cities.length;i++) {
 		    var way_loc = new google.maps.LatLng(cities[i].latitude, cities[i].longitude)
@@ -155,6 +157,7 @@ function calcRoute() {
 	    }
         // $(".output").append(JSON.stringify(request));
         directionsService.route(request, function(response, status) {
+            // $(".output").
             if (status == google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(response);
             }
