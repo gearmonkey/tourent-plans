@@ -46,3 +46,7 @@ div.duration{
     display:inline;    
     font-style:italic;
 }
+
+img.logo{
+    margin: 5px;
+}

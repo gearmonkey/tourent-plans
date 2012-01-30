@@ -11,6 +11,20 @@
 <script type="text/javascript" src="scripts/credentials.js"></script>
 <script type="text/javascript" src="scripts/main.js"></script>
 <link rel="stylesheet" type="text/css" href="css/core.css" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-21036234-1']);
+  _gaq.push(['_setDomainName', 'benfields.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
 </head>
 <body onload="initialize()">
 <div class="header">
@@ -23,15 +37,23 @@
   <option value="fe66302b0aee49cfbd7d248403036def">Lady Gaga</option>
   <option value="e78fc40de81a4e01babf1d23deaf2ca0">50 cent</option>
   <option value="74d4539c16624efc9471c5a93292c6e7">Justin Bieber</option>
-  <option value="dc82b93e90b74b2a99e9f2d4391d04ea">Polysics</option>
+  <option value="481eb30ddd85428389dd2ceac64064b1">Metallica</option>
+  <option value="32e628734a6a4100834a05032a909813">Ladytron</option>
+  <option value="a8f5dbdd80864703a58260c7df6d10b5">Evanescence</option>
   <option value="20e65961791b43ebb1e313fc0937e84a">MEN</option>
+  <option value="0522cf8bb3934e57b5c45a6ad3b607c6">Dido</option>
+  <option value="cd6cdac9d88148cd8a90b6153ca2c41d">DEVO</option>
 </select>
+<!-- <input type="text" name="artist_freetext" value="Or type one in" id="artist_freetext" onchange="calcRoute();"/> -->
 <b>Country: </b>
 <select id="country" onchange="calcRoute();">
   <option value="ALL">All</option>
   <option value="US">United States</option>
-  <option value="GB">United Kingdom</option>
-  <option value="FR" selected="selected">France</option>
+  <option value="GB" selected="selected">United Kingdom</option>
+  <option value="FR">France</option>
+  <option value="SE">Sweden</option>
+  <option value="CA">Canada</option>
+  <option value="ES">Spain</option>
 </select>
 <b>Continent: </b>
 <select id="continent" onchange="calcRoute();">
@@ -59,5 +81,6 @@
 	<div id="map_canvas" style="float:right;width:70%; top:0px;"></div>
 	<div id="directionsPanel" style="float:left;width:30%;top:30px;"></div>
 </div>
+<div class="footer">Made by <a href="http://benfields.net">Ben Fields</a> <a href="http://twitter.com/alsothings">@alsothings</a><a href="http://musicmetric.com"><img class="logo" alt='made with musicmetric data' src="images/logo_musicmetricFooter.png" height="20" align="right"></a><a href="http://songkick.com"><img class="logo" alt='made with songkick data' src="images/logo_for_songkick.png" height="20" align="right"></a></div>
 </body>
 </html>
