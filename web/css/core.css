@@ -11,13 +11,13 @@ div.header{
 div.options{
     background-color: DarkSlateGray;
     padding: 20px 100px 20px 0px;
-    margin: 0px auto;
+    margin: 0px auto 5px auto;
     text-align:center;
     color: white;
 }
 
 div#directionsPanel{
-    margin: auto 0px;
+    margin: 0px 0px auto 0px;
     padding: 30px 0px 40px 0px;
 }
 div#map_wrapper{
@@ -27,8 +27,11 @@ div#map_wrapper{
 }
 
 div.a_leg{
+    margin: 0px 5px 1px auto;
     border: 1px solid #999;
     background-color: DarkSlateGray;
+    color: white;
+    text-align: left;
 }
 
 div.place{
