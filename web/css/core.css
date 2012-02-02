@@ -50,3 +50,8 @@ div.duration{
 img.logo{
     margin: 5px;
 }
+
+span#mid{
+    margin: 0px 12px;
+    text-align:center;
+}
